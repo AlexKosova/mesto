@@ -4,7 +4,17 @@
   font-size: 18px;
   line-height: 1.22;
   font-weight: 500;
+  max-width: 336px;
   margin: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .profile__description {
+    font-size: 16px;
+  }
 }
 
 @media screen and (max-width: 767px) {

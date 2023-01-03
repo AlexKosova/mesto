@@ -1,8 +1,15 @@
 .popup {
   display: none;
   justify-content: center;
-  position: absolute;
+  margin-left: 20px;
+  position: fixed;
   min-width: 100%;
   min-height: 100vh;
   background-color: rgba(0, 0, 0, .5);
+}
+
+@media screen and (max-width: 767px) {
+  .popup {
+    margin-left: 10px;
+  }
 }

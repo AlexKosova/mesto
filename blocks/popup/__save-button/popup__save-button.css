@@ -10,12 +10,16 @@
   font-weight: 400;
   font-family: 'Inter', Courier, monospace;
   cursor: pointer;
+  outline: none;
+}
+
+.popup__save-button:hover {
+  opacity: .8;
 }
 
 @media screen and (max-width: 767px) {
   .popup__save-button {
     min-width: 238px;
-    margin-top: 45px;
     min-height: 45px;
     margin-bottom: 25px;
     font-size: 14px;
