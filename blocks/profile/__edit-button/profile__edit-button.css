@@ -1,0 +1,16 @@
+.profile__edit-button {
+  grid-area: edit;
+  background-color: transparent;
+  border: 1px white solid;
+  min-width: 10px;
+  cursor: pointer;
+  margin-left: 23px;
+  margin-bottom: auto;
+  margin-top: auto;
+}
+
+@media screen and (max-width: 767px) {
+  .profile__edit-button {
+    margin-left: 10px;
+  }
+}

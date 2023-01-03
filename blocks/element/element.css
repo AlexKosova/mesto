@@ -1,0 +1,11 @@
+.element {
+  margin: 0;
+  background-color: white;
+  max-width: 282px;
+  display: grid;
+  grid-row: 282px auto;
+  grid-template-areas: "photo"
+  "info-card";
+  border-radius: 10px;
+  min-height: 361px;
+}

@@ -1,0 +1,19 @@
+.header__underline {
+  border: 1px rgba(84, 84, 84, 1) solid;
+  opacity: 70%;
+  min-width: 880px;
+  margin: 0;
+  margin-top: 41px;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .header__underline {
+    min-width: 518px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .header__underline {
+    min-width: 318px;
+  }
+}
