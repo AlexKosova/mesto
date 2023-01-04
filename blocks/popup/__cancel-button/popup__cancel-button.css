@@ -1,13 +1,13 @@
 .popup__cancel-button {
   position: relative;
-  align-self: center;
-  top: -189px;
+  align-self: flex-end;
   min-width: 32px;
   min-height: 32px;
   margin: 0;
-  left: 8px;
+  bottom: 40px;
+  left: 40px;
   background-color: transparent;
-  background-image: url(../../../images/cross-cancel.png);
+  background-image: url(../../../images/cross-cancel.svg);
   border: none;
   padding: 0;
   cursor: pointer;
@@ -21,7 +21,7 @@
   .popup__cancel-button {
     min-width: 20px;
     min-height: 20px;
-    left: -20px;
+    left: 0px;
     background-size: contain;
     }
   }

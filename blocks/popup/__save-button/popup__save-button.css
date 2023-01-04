@@ -10,7 +10,7 @@
   font-weight: 400;
   font-family: 'Inter', Courier, monospace;
   cursor: pointer;
-  outline: none;
+  border: none;
 }
 
 .popup__save-button:hover {

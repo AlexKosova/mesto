@@ -2,13 +2,14 @@
   grid-area: edit;
   background-color: transparent;
   border: 1px white solid;
-  min-width: 23px;
-  min-height: 23px;
+  width: 23px;
+  height: 23px;
   cursor: pointer;
   margin-left: 23px;
   margin-bottom: auto;
   margin-top: auto;
-  background-image: url(../../../images/edit__button.png);
+  background-image: url(../../../images/edit__button.svg);
+  background-size: 10px;
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -20,8 +21,8 @@
 @media screen and (max-width: 767px) {
   .profile__edit-button {
     margin-left: 10px;
-    min-width: 18px;
-    min-height: 18px;
+    width: 18px;
+    height: 18px;
     margin-bottom: 20px;
   }
 }
