@@ -8,4 +8,6 @@
   "info-card";
   border-radius: 10px;
   min-height: 361px;
+  list-style-type: none;
+  padding: 0;
 }
