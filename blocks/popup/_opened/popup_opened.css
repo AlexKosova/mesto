@@ -10,7 +10,7 @@
 }
 
 .popup_opened {
-	animation: popup_opened .3s;
-	opacity: 1;
-	visibility: visible;
+  visibility: visible;
+  opacity: 1;
+  animation: popup_opened .3s;
 }

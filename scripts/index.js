@@ -26,105 +26,92 @@ const initialCards = [
   }
 ]; 
 
-// buttons
 const editButton = document.querySelector(".profile__edit-button");
 const closelEditingButton = document.querySelector("#closeEditingButton")
 const newPostButton = document.querySelector('.profile__add-button');
 const closePostButton = document.querySelector('#closePostButton');
-
-// forms and onthers
-const editForm = document.querySelector("#editProfileForm");
-const formElement = document.querySelector("#editProfile");
-const newPostForm = document.querySelector('#newPostForm');
-const newPostElement = document.querySelector("#newPost");
+const editPopup = document.querySelector("#editProfileForm");
+const editForm = document.querySelector("#editProfile");
+const newPostPopup = document.querySelector('#newPostPopup');
+const newPostForm = document.querySelector("#newPost");
 const cards = document.querySelector('.elements');
-
-// inputs and text-content
 const userName = document.querySelector(".profile__name");
 const nameInput = document.querySelector("#userName");
 const userJob = document.querySelector(".profile__description");
 const jobInput = document.querySelector("#userJob");
 const postTitleInput = document.querySelector("#postTitleInput");
 const postLinkInput = document.querySelector('#postLinkInput')
+const imagePopup = document.querySelector('#photo-popup');
+const imagePopupPhoto = document.querySelector('.photo-popup__image');
+const imagePopupTitle = document.querySelector('.photo-popup__title');
+const photoPopupClose = document.querySelector('#photo-popup__close')
+const tempElement = cards.querySelector('#element').content;
 
-// function button-close
-closePostButton.addEventListener('click', function() {
-  newPostForm.classList.remove('popup_opened');
-})
-closelEditingButton.addEventListener('click', function() {
-  editForm.classList.remove('popup_opened')
+initialCards.forEach((item) => {
+  const tempCard = tempElement.querySelector('.element').cloneNode(true);
+  tempCard.querySelector('.element__photo').src = item.link;
+  tempCard.querySelector('.element__title').textContent = tempCard.querySelector('.element__photo').alt= item.name;
+  cards.prepend(tempCard);
 });
 
-//function popup_opened
+closePostButton.addEventListener('click', function() {
+  closePopup(newPostPopup);
+})
+closelEditingButton.addEventListener('click', function() {
+  closePopup(editPopup);
+});
+
 editButton.addEventListener('click', function() {
-  editForm.classList.add('popup_opened');
+  openPopup(editPopup);
   nameInput.value = userName.textContent;
   jobInput.value = userJob.textContent;
 });
 newPostButton.addEventListener('click', function() {
-  newPostForm.classList.add('popup_opened');
+  openPopup(newPostPopup);
 });
 
-formElement.addEventListener('submit', handleFormSubmit);
-newPostElement.addEventListener('submit', addPostButton);
+editForm.addEventListener('submit', handleEditForm);
+newPostForm.addEventListener('submit', addPost);
 
-function addPostButton (evt) {
+photoPopupClose.addEventListener('click', () => {closePopup(imagePopup)})
+  cards.addEventListener('click', evt => { 
+    if (evt.target.classList.contains('element__button-like')) { 
+      evt.target.classList.toggle('element__button-like_active'); 
+      return;
+    }
+    if (evt.target.classList.contains('element__button-delete')) { 
+      evt.target.closest('.element').remove(); 
+      return;
+    } 
+    if (evt.target.classList.contains('element__photo')) { 
+    imagePopupPhoto.src = evt.target.src;
+    imagePopupTitle.textContent = imagePopupPhoto.alt = evt.target.alt;
+    openPopup(imagePopup);
+    }
+})
+
+function addPost (evt) {
   evt.preventDefault();
-  cards.insertAdjacentHTML('afterbegin', 
-    `<li class="element">
-      <img class="element__photo" src="${postLinkInput.value}" alt="${postTitleInput.value}">
-      <h2 class="element__title">${postTitleInput.value}</h2>
-      <button class="element__button-like" aria-label="нравится" type="button"></button>
-      <button class="element__button-delete"></button>
-    </li>`);
-    postLinkInput.value = '';
-    postTitleInput.value = '';
-    newPostForm.classList.remove('popup_opened');
-    
+  const tempCard = tempElement.querySelector('.element').cloneNode(true);
+  tempCard.querySelector('.element__photo').src = postLinkInput.value;
+  tempCard.querySelector('.element__title').textContent = tempCard.querySelector('.element__photo').alt= postTitleInput.value;
+  cards.prepend(tempCard);
+  postLinkInput.value = '';
+  postTitleInput.value = '';
+  closePopup(newPostPopup);
 }
 
-function handleFormSubmit (evt) {
+function handleEditForm (evt) {
   evt.preventDefault();
   userName.textContent = nameInput.value;
   userJob.textContent = jobInput.value;
-  editForm.classList.remove('popup_opened');
+  closePopup(editPopup);
 }
 
-initialCards.forEach((item) => {
-  cards.insertAdjacentHTML('afterbegin', 
-    `<li class="element">
-      <img class="element__photo" src="${item.link}" alt="${item.name}">
-      <h2 class="element__title">${item.name}</h2>
-      <button class="element__button-like" aria-label="нравится" type="button"></button>
-      <button class="element__button-delete"></button>
-    </li>`);
-});
+function openPopup (item) {
+  item.classList.add('popup_opened')
+}
 
-// LIKE
-cards.addEventListener('click', (item) => {
-  if (item.target.classList.contains('element__button-like')) {
-    item.target.classList.toggle('element__button-like_active');
+function closePopup (item) {
+    item.classList.remove('popup_opened');
   }
-})
-
-// DELETE CARD
-cards.addEventListener('click', (item) => {
-  if (item.target.classList.contains('element__button-delete')) {
-    item.target.parentElement.remove();
-  }
-})
-
-//IMAGE-POPUP
-const imagePopup = document.querySelector('.photo-popup');
-const imagePopupPhoto = document.querySelector('.photo-popup__image');
-const imagePopupTitle = document.querySelector('.photo-popup__title');
-cards.addEventListener('click', (item) => {
-  if (item.target.classList.contains('element__photo')) {
-    imagePopup.classList.add('photo-popup_opened');
-    imagePopupTitle.textContent = imagePopupPhoto.alt = item.target.alt;
-    imagePopupPhoto.src = item.target.src;
-  }
-})
-
-const photoPopupClose = document.querySelector('.photo-popup__close')
-photoPopupClose.addEventListener('click', () => {imagePopup.classList.remove('photo-popup_opened')})
