@@ -94,7 +94,7 @@ function addPost (evt) {
   evt.preventDefault();
   const tempCard = tempElement.querySelector('.element').cloneNode(true);
   tempCard.querySelector('.element__photo').src = postLinkInput.value;
-  tempCard.querySelector('.element__title').textContent = tempCard.querySelector('.element__photo').alt= postTitleInput.value;
+  tempCard.querySelector('.element__title').textContent = tempCard.querySelector('.element__photo').alt = postTitleInput.value;
   cards.prepend(tempCard);
   postLinkInput.value = '';
   postTitleInput.value = '';
