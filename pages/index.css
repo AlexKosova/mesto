@@ -43,6 +43,7 @@
 @import url(../blocks/popup/__cancel-button/popup__cancel-button.css);
 @import url(../blocks/popup/_opened/popup_opened.css);
 @import url(../blocks/popup/__input/popup__input.css);
+@import url(../blocks/popup/_background-color/popup_background-color.css);
 
 /* photo-popup */
 @import url(../blocks/photo-popup/photo-popup.css);

@@ -48,11 +48,10 @@ const photoPopupClose = document.querySelector('#photo-popup__close')
 const tempElement = cards.querySelector('#element').content;
 
 initialCards.forEach((item) => {
-  const tempCard = tempElement.querySelector('.element').cloneNode(true);
-  tempCard.querySelector('.element__photo').src = item.link;
-  tempCard.querySelector('.element__title').textContent = tempCard.querySelector('.element__photo').alt= item.name;
-  cards.prepend(tempCard);
-});
+  const postCard = addPost(item.name, item.link);
+  cards.prepend(postCard);
+  closePopup(newPostPopup);
+})
 
 closePostButton.addEventListener('click', function() {
   closePopup(newPostPopup);
@@ -70,8 +69,8 @@ newPostButton.addEventListener('click', function() {
   openPopup(newPostPopup);
 });
 
-editForm.addEventListener('submit', handleEditForm);
-newPostForm.addEventListener('submit', addPost);
+editForm.addEventListener('submit', handleEditFormSubmit);
+newPostForm.addEventListener('submit', createCard);
 
 photoPopupClose.addEventListener('click', () => {closePopup(imagePopup)})
   cards.addEventListener('click', evt => { 
@@ -90,18 +89,21 @@ photoPopupClose.addEventListener('click', () => {closePopup(imagePopup)})
     }
 })
 
-function addPost (evt) {
+function createCard (evt) {
   evt.preventDefault();
-  const tempCard = tempElement.querySelector('.element').cloneNode(true);
-  tempCard.querySelector('.element__photo').src = postLinkInput.value;
-  tempCard.querySelector('.element__title').textContent = tempCard.querySelector('.element__photo').alt = postTitleInput.value;
-  cards.prepend(tempCard);
-  postLinkInput.value = '';
-  postTitleInput.value = '';
+  const postCard = addPost(postTitleInput.value, postLinkInput.value);
+  cards.prepend(postCard);
   closePopup(newPostPopup);
 }
 
-function handleEditForm (evt) {
+function addPost (name, link) {
+  const tempCard = tempElement.querySelector('.element').cloneNode(true);
+  tempCard.querySelector('.element__photo').src = link;
+  tempCard.querySelector('.element__title').textContent = tempCard.querySelector('.element__photo').alt = name;
+  return tempCard
+}
+
+function handleEditFormSubmit (evt) {
   evt.preventDefault();
   userName.textContent = nameInput.value;
   userJob.textContent = jobInput.value;
