@@ -48,7 +48,7 @@ const photoPopupClose = document.querySelector('#photo-popup__close')
 const tempElement = cards.querySelector('#element').content;
 
 initialCards.forEach((item) => {
-  const postCard = addPost(item.name, item.link);
+  const postCard = createCard(item.name, item.link);
   cards.prepend(postCard);
   closePopup(newPostPopup);
 })
@@ -70,7 +70,7 @@ newPostButton.addEventListener('click', function() {
 });
 
 editForm.addEventListener('submit', handleEditFormSubmit);
-newPostForm.addEventListener('submit', createCard);
+newPostForm.addEventListener('submit', addPost);
 
 photoPopupClose.addEventListener('click', () => {closePopup(imagePopup)})
   cards.addEventListener('click', evt => { 
@@ -89,14 +89,14 @@ photoPopupClose.addEventListener('click', () => {closePopup(imagePopup)})
     }
 })
 
-function createCard (evt) {
+function addPost (evt) {
   evt.preventDefault();
-  const postCard = addPost(postTitleInput.value, postLinkInput.value);
+  const postCard = createCard(postTitleInput.value, postLinkInput.value);
   cards.prepend(postCard);
   closePopup(newPostPopup);
 }
 
-function addPost (name, link) {
+function createCard (name, link) {
   const tempCard = tempElement.querySelector('.element').cloneNode(true);
   tempCard.querySelector('.element__photo').src = link;
   tempCard.querySelector('.element__title').textContent = tempCard.querySelector('.element__photo').alt = name;
