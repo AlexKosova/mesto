@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="pages/index.css">
     <script defer src="scripts/index.js"></script>
+    <script defer src="scripts/validate.js"></script>
     <title>Mesto</title>
   </head>
   <body>
@@ -40,11 +41,29 @@
       </footer>
 
       <section class="popup" id="editProfileForm">
-        <form class="popup__container" name="editProfile" id="editProfile">
+        <form class="popup__container" name="editProfile" novalidate>
           <button class="popup__cancel-button" id="closeEditingButton" type="button"></button>
           <h3 class="popup__title">Редактировать профиль</h3>
-          <input required class="popup__input" type="text" placeholder="Введите имя" id="userName" name="userName">
-          <input required class="popup__input" id="userJob" type="text" placeholder="Немного информации о себе" name="userJob">
+          <input 
+          required 
+          class="popup__input" 
+          type="text" 
+          placeholder="Введите имя" 
+          minlength="2" 
+          maxlength="40" 
+          name="userName" 
+          id="userNameInput">
+          <span class="error" id="userNameInput-error"></span>
+          <input 
+          required 
+          class="popup__input" 
+          type="text" 
+          placeholder="Немного информации о себе" 
+          minlength="2" 
+          maxlength="200" 
+          name="userJobInput" 
+          id="userJobInput">
+          <span id="userJobInput-error" class="error"></span>
           <button class="popup__save-button" aria-label="Сохранить изменения" type="submit">
           Сохранить
           </button>
@@ -52,11 +71,27 @@
       </section>
 
       <section class="popup" id="newPostPopup">
-        <form class="popup__container" name="newPost" id="newPost">
+        <form class="popup__container" name="newPost" novalidate>
           <button class="popup__cancel-button" id="closePostButton" type="button"></button>
           <h3 class="popup__title">Новое место</h3>
-          <input required class="popup__input" type="text" placeholder="Название" id="postTitleInput" name="postTitle">
-          <input required class="popup__input" id="postLinkInput" type="url" placeholder="Ссылка на картинку" name="postLink">
+          <input 
+          required 
+          class="popup__input" 
+          type="text" 
+          minlength="2" 
+          maxlength="30" 
+          placeholder="Название" 
+          name="postTitleInput" 
+          id="postTitleInput">
+          <span id="postTitleInput-error" class="error"></span>
+          <input 
+          required 
+          class="popup__input" 
+          type="url" 
+          placeholder="Ссылка на картинку" 
+          name="postLinkInput" 
+          id="postLinkInput">
+          <span id="postLinkInput-error" class="error"></span>
           <button class="popup__save-button" aria-label="Создать пост" type="submit">
           Создать
           </button>
