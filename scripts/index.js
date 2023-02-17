@@ -27,9 +27,7 @@ const initialCards = [
 ]; 
 
 const editButton = document.querySelector(".profile__edit-button");
-const closelEditingButton = document.querySelector("#closeEditingButton")
 const newPostButton = document.querySelector('.profile__add-button');
-const closePostButton = document.querySelector('#closePostButton');
 const editPopup = document.querySelector("#editProfileForm");
 const editForm = document.forms.editProfile;
 const newPostPopup = document.querySelector('#newPostPopup');
@@ -45,7 +43,6 @@ const imagePopup = document.querySelector('#photo-popup');
 const imagePopupContainer = document.querySelector('.photo-popup');
 const imagePopupPhoto = document.querySelector('.photo-popup__image');
 const imagePopupTitle = document.querySelector('.photo-popup__title');
-const photoPopupClose = document.querySelector('#photo-popup__close')
 const tempElement = cards.querySelector('#element').content;
 
 initialCards.forEach((item) => {
@@ -54,12 +51,18 @@ initialCards.forEach((item) => {
   closePopup(newPostPopup);
 })
 
-closePostButton.addEventListener('click', () => {
-  closePopup(newPostPopup);
+const popups = document.querySelectorAll('.popup')
+
+popups.forEach((popup) => {
+  popup.addEventListener('mousedown', (evt) => {
+    if (evt.target.classList.contains('popup_opened')) {
+      closePopup(popup)
+    }
+    if (evt.target.classList.contains('popup__cancel-button')) {
+      closePopup(popup)
+    }
+  })
 })
-closelEditingButton.addEventListener('click', () => {
-  closePopup(editPopup);
-});
 
 editButton.addEventListener('click', () => {
   openPopup(editPopup);
@@ -72,8 +75,6 @@ newPostButton.addEventListener('click', () => {
 
 editForm.addEventListener('submit', handleEditFormSubmit);
 newPostForm.addEventListener('submit', addPost);
-
-photoPopupClose.addEventListener('click', () => {closePopup(imagePopup)})
 
 cards.addEventListener('click', evt => { 
   if (evt.target.classList.contains('element__button-like')) { 
@@ -109,19 +110,12 @@ imagePopup.addEventListener('click', (evt) => {
   }
 })
 
-window.addEventListener('keyup', (evt) => {
-  if (evt.code == 'Escape') {
-    if (editPopup.classList.contains('popup_opened')) {
-      closePopup(editPopup)
-    }
-    if (newPostPopup.classList.contains('popup_opened')) {
-      closePopup(newPostPopup)
-    }
-    if (imagePopup.classList.contains('popup_opened')) {
-      closePopup(imagePopup)
-    }
+function closeByEscape(evt) {
+  if (evt.code === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened') 
+    closePopup(openedPopup)
   }
-})
+}
 
 function addPost (evt) {
   evt.preventDefault();
@@ -145,10 +139,12 @@ function handleEditFormSubmit (evt) {
   closePopup(editPopup);
 }
 
-function openPopup (item) {
-  item.classList.add('popup_opened')
+function openPopup (popup) {
+  popup.classList.add('popup_opened')
+  document.addEventListener('keydown', closeByEscape);
 }
 
-function closePopup (item) {
-    item.classList.remove('popup_opened');
+function closePopup (popup) {
+    popup.classList.remove('popup_opened');
+    document.removeEventListener('keydown', closeByEscape);
   }
