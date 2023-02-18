@@ -92,24 +92,6 @@ cards.addEventListener('click', evt => {
   }
 })
 
-newPostPopup.addEventListener('click', (evt) => {
-  if (!newPostForm.contains(evt.target)) {
-    closePopup(newPostPopup)
-  }
-})
-
-editPopup.addEventListener('click', (evt) => {
-  if (!editForm.contains(evt.target)) {
-    closePopup(editPopup)
-  }
-})
-
-imagePopup.addEventListener('click', (evt) => {
-  if (!imagePopupContainer.contains(evt.target)) {
-    closePopup(imagePopup)
-  }
-})
-
 function closeByEscape(evt) {
   if (evt.code === 'Escape') {
     const openedPopup = document.querySelector('.popup_opened') 
