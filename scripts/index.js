@@ -1,31 +1,3 @@
-//massive of cards
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-]; 
-
 const editButton = document.querySelector(".profile__edit-button");
 const newPostButton = document.querySelector('.profile__add-button');
 const editPopup = document.querySelector("#editProfileForm");
@@ -34,24 +6,51 @@ const newPostPopup = document.querySelector('#newPostPopup');
 const newPostForm = document.forms.newPost;
 const cards = document.querySelector('.elements');
 const userName = document.querySelector(".profile__name");
-const nameInput = editProfile.elements.userNameInput;
+const nameInput = editForm.elements.userNameInput;
 const userJob = document.querySelector(".profile__description");
-const jobInput = editProfile.elements.userJobInput;
-const postTitleInput = newPost.elements.postTitleInput;
-const postLinkInput = newPost.elements.postLinkInput;
+const jobInput = editForm.elements.userJobInput;
+const postTitleInput = newPostForm.elements.postTitleInput;
+const postLinkInput = newPostForm.elements.postLinkInput;
 const imagePopup = document.querySelector('#photo-popup');
-const imagePopupContainer = document.querySelector('.photo-popup');
 const imagePopupPhoto = document.querySelector('.photo-popup__image');
 const imagePopupTitle = document.querySelector('.photo-popup__title');
-const tempElement = cards.querySelector('#element').content;
-
-initialCards.forEach((item) => {
-  const postCard = createCard(item.name, item.link);
-  cards.prepend(postCard);
-  closePopup(newPostPopup);
-})
-
 const popups = document.querySelectorAll('.popup')
+
+import {initialCards} from "./initialCards.js";
+import Card from "./card.js";
+import FormValidator from "./formValidator.js";
+
+function closeByEscape(evt) {
+  if (evt.code === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened') 
+    closePopup(openedPopup)
+  }
+}
+
+function addPost (evt) {
+  evt.preventDefault();
+  const postCard = new Card (postTitleInput.value, postLinkInput.value);
+  cards.prepend(postCard.createCard());
+  newPostForm.reset();
+  closePopup(newPostPopup);
+}
+
+function handleEditFormSubmit (evt) {
+  evt.preventDefault();
+  userName.textContent = nameInput.value;
+  userJob.textContent = jobInput.value;
+  closePopup(editPopup);
+}
+
+window.openPopup = function (popup) {
+  popup.classList.add('popup_opened')
+  document.addEventListener('keydown', closeByEscape);
+}
+
+function closePopup (popup) {
+    popup.classList.remove('popup_opened');
+    document.removeEventListener('keydown', closeByEscape);
+}
 
 popups.forEach((popup) => {
   popup.addEventListener('mousedown', (evt) => {
@@ -76,57 +75,14 @@ newPostButton.addEventListener('click', () => {
 editForm.addEventListener('submit', handleEditFormSubmit);
 newPostForm.addEventListener('submit', addPost);
 
-cards.addEventListener('click', evt => { 
-  if (evt.target.classList.contains('element__button-like')) { 
-    evt.target.classList.toggle('element__button-like_active'); 
-      return;
-  }
-  if (evt.target.classList.contains('element__button-delete')) { 
-    evt.target.closest('.element').remove(); 
-    return;
-  } 
-  if (evt.target.classList.contains('element__photo')) { 
-    imagePopupPhoto.src = evt.target.src;
-    imagePopupTitle.textContent = imagePopupPhoto.alt = evt.target.alt;
-    openPopup(imagePopup);
-  }
+initialCards.forEach((item) => {
+  const postCard = new Card (item.name, item.link);
+  cards.prepend(postCard.createCard());
+  closePopup(newPostPopup);
 })
 
-function closeByEscape(evt) {
-  if (evt.code === 'Escape') {
-    const openedPopup = document.querySelector('.popup_opened') 
-    closePopup(openedPopup)
-  }
-}
+const newPost = new FormValidator (newPostForm);
+newPost.enableValidation();
 
-function addPost (evt) {
-  evt.preventDefault();
-  const postCard = createCard(postTitleInput.value, postLinkInput.value);
-  cards.prepend(postCard);
-  newPost.reset();
-  closePopup(newPostPopup);
-}
-
-function createCard (name, link) {
-  const tempCard = tempElement.querySelector('.element').cloneNode(true);
-  tempCard.querySelector('.element__photo').src = link;
-  tempCard.querySelector('.element__title').textContent = tempCard.querySelector('.element__photo').alt = name;
-  return tempCard
-}
-
-function handleEditFormSubmit (evt) {
-  evt.preventDefault();
-  userName.textContent = nameInput.value;
-  userJob.textContent = jobInput.value;
-  closePopup(editPopup);
-}
-
-function openPopup (popup) {
-  popup.classList.add('popup_opened')
-  document.addEventListener('keydown', closeByEscape);
-}
-
-function closePopup (popup) {
-    popup.classList.remove('popup_opened');
-    document.removeEventListener('keydown', closeByEscape);
-  }
+const editProfile = new FormValidator (editForm)
+editProfile.enableValidation();
