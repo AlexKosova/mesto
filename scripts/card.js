@@ -1,50 +1,48 @@
 export default class Card {
-  constructor (name, link) {
+  constructor (name, link, tempSelector, handleOpenPopup) {
     this._name = name;
     this._link = link;
-    this._tempElement = this.createCard();
-    this.imagePopup = document.querySelector('#photo-popup');
+    this._tempSelector = tempSelector;
+    this._tempCard = this.createCard();
+    this._handleOpenPopup = handleOpenPopup;
   }
 
   createCard () {
     this._tempCard = this._getTemplate();
-    this._tempCard.querySelector('.element__photo').src = this._link;
-    this._tempCard.querySelector('.element__title').textContent = this._tempCard.querySelector('.element__photo').alt = this._name;
+    this._tempImageElem = this._tempCard.querySelector('.element__photo'); 
+    this._tempImageElem.src = this._link;
+    this._tempCard.querySelector('.element__title').textContent = this._tempImageElem.alt = this._name;
     this._setEventListeners();
       return this._tempCard
   }
 
   _getTemplate () {
-    const tempElement = document.querySelector('#element').content;
+    const tempElement = document.querySelector(this._tempSelector).content;
     const tempCard = tempElement.querySelector('.element').cloneNode(true);
     return tempCard;
   }
 
   _setEventListeners () {
-    this._tempCard.querySelector('.element__button-like').addEventListener('click', () => {
+    this._buttonLike = this._tempCard.querySelector('.element__button-like');
+    this._buttonLike.addEventListener('click', () => {
       this._like()
     });
+    this.buttonDelete = this._tempCard.querySelector('.element__button-delete')
 
-    this._tempCard.querySelector('.element__button-delete').addEventListener('click', () => {
+    this.buttonDelete.addEventListener('click', () => {
       this._remove()
     })
 
-    this._tempCard.querySelector('.element__photo').addEventListener('click', () => {
-      this._photoPopup()
+    this._tempImageElem.addEventListener('click', () => {
+      this._handleOpenPopup(this._name, this._link);
     })
   }
 
   _like () {
-    this._tempCard.querySelector('.element__button-like').classList.toggle('element__button-like_active');
+    this._buttonLike.classList.toggle('element__button-like_active');
   }
 
   _remove () {
-    this._tempCard.querySelector('.element__button-delete').closest('.element').remove();
-  }
-
-  _photoPopup () {
-    document.querySelector('.photo-popup__image').src = this._link;
-    document.querySelector('.photo-popup__title').textContent = document.querySelector('.photo-popup__image').alt = this._name;
-    openPopup(document.querySelector('#photo-popup'));
+    this.buttonDelete.closest('.element').remove();
   }
 }

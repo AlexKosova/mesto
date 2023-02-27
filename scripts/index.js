@@ -27,12 +27,27 @@ function closeByEscape(evt) {
   }
 }
 
+function handleOpenPopup (name, link) {
+  imagePopupPhoto.src = link;
+  imagePopupTitle.textContent = imagePopupPhoto.alt = name;
+  openPopup(imagePopup)
+}
+
+function renderCard (name, link) {
+  const postCard = new Card (name, link, '#element',handleOpenPopup);
+  cards.prepend(postCard.createCard());
+}
+
 function addPost (evt) {
   evt.preventDefault();
-  const postCard = new Card (postTitleInput.value, postLinkInput.value);
-  cards.prepend(postCard.createCard());
+  renderCard (postTitleInput.value, postLinkInput.value);
   newPostForm.reset();
   closePopup(newPostPopup);
+}
+
+function openPopup (popup) {
+  popup.classList.add('popup_opened')
+  document.addEventListener('keydown', closeByEscape);
 }
 
 function handleEditFormSubmit (evt) {
@@ -42,11 +57,6 @@ function handleEditFormSubmit (evt) {
   closePopup(editPopup);
 }
 
-window.openPopup = function (popup) {
-  popup.classList.add('popup_opened')
-  document.addEventListener('keydown', closeByEscape);
-}
-
 function closePopup (popup) {
     popup.classList.remove('popup_opened');
     document.removeEventListener('keydown', closeByEscape);
@@ -54,10 +64,7 @@ function closePopup (popup) {
 
 popups.forEach((popup) => {
   popup.addEventListener('mousedown', (evt) => {
-    if (evt.target.classList.contains('popup_opened')) {
-      closePopup(popup)
-    }
-    if (evt.target.classList.contains('popup__cancel-button')) {
+    if (evt.target.classList.contains('popup_opened') || evt.target.classList.contains('popup__cancel-button')) {
       closePopup(popup)
     }
   })
@@ -76,13 +83,20 @@ editForm.addEventListener('submit', handleEditFormSubmit);
 newPostForm.addEventListener('submit', addPost);
 
 initialCards.forEach((item) => {
-  const postCard = new Card (item.name, item.link);
-  cards.prepend(postCard.createCard());
+  renderCard (item.name, item.link);
   closePopup(newPostPopup);
 })
 
-const newPost = new FormValidator (newPostForm);
-newPost.enableValidation();
+const config = {
+  formSelector: '.popup__container',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__save-button',
+  inactiveButtonClass: 'popup__save-button_disabled',
+  errorClass: 'popup__input_type_error',
+}
 
-const editProfile = new FormValidator (editForm)
-editProfile.enableValidation();
+const newPostValidator = new FormValidator (config, newPostForm);
+newPostValidator.enableValidation();
+
+const editProfileValidator = new FormValidator (config, editForm)
+editProfileValidator.enableValidation();
