@@ -1,10 +1,10 @@
 export default class Card {
-  constructor (name, link, tempSelector, handleOpenPopup) {
+  constructor (name, link, tempSelector, handleCardClick) {
     this._name = name;
     this._link = link;
     this._tempSelector = tempSelector;
     this._tempCard = this.createCard();
-    this._handleOpenPopup = handleOpenPopup;
+    this._handleCardClick = handleCardClick;
   }
 
   createCard () {
@@ -34,7 +34,7 @@ export default class Card {
     })
 
     this._tempImageElem.addEventListener('click', () => {
-      this._handleOpenPopup(this._name, this._link);
+      this._handleCardClick.open(this._name, this._link);
     })
   }
 
