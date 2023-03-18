@@ -1,6 +1,6 @@
 export default class Card {
-  constructor (name, link, tempSelector, handleCardClick) {
-    this._name = name;
+  constructor (title, link, tempSelector, handleCardClick) {
+    this._title = title;
     this._link = link;
     this._tempSelector = tempSelector;
     this._tempCard = this.createCard();
@@ -11,7 +11,7 @@ export default class Card {
     this._tempCard = this._getTemplate();
     this._tempImageElem = this._tempCard.querySelector('.element__photo'); 
     this._tempImageElem.src = this._link;
-    this._tempCard.querySelector('.element__title').textContent = this._tempImageElem.alt = this._name;
+    this._tempCard.querySelector('.element__title').textContent = this._tempImageElem.alt = this._title;
     this._setEventListeners();
       return this._tempCard
   }
@@ -34,7 +34,7 @@ export default class Card {
     })
 
     this._tempImageElem.addEventListener('click', () => {
-      this._handleCardClick.open(this._name, this._link);
+      this._handleCardClick(this._title, this._link);
     })
   }
 

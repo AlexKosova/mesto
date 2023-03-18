@@ -1,6 +1,6 @@
 export class Popup {
-  constructor (popupSelector) {
-    this._popup = popupSelector
+  constructor (popupElement) {
+    this._popup = popupElement
     this._opened = 'popup_opened'
   }
 
@@ -16,9 +16,7 @@ export class Popup {
 
   _closeByEscape (evt) {
     if (evt.key === 'Escape') { 
-      const openedPopup = document.querySelector('.popup_opened');
-      const closedPopup = new Popup (openedPopup)
-      closedPopup.close()
+    this.close()
     }
   }
 
