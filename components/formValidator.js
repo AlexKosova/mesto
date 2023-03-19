@@ -27,7 +27,7 @@ export default class FormValidator {
         this._toggleButton(), 0})
     }) 
 
-    const _inputList = this._form.querySelectorAll(this._inputSelector)
+    const _inputList = this._form.querySelectorAll(this._inputSelector);
     _inputList.forEach((input) => {
       input.addEventListener('input', () => {
         this._handleFormInput(input);
