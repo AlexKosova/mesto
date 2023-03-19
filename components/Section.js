@@ -6,12 +6,14 @@ constructor ({items, renderer}, containerSelector) {
   }
 
   renderItems () { 
+    const cardList = []
     this._items.forEach(item => { 
-       this._container.prepend(this._renderer(item.title, item.link))
+      cardList.push(this._renderer(item.title, item.link))
   }); 
+    return cardList
 } 
 
-  addItem (title, link) {
-    this._container.prepend(this._renderer(title, link))
+  addItem (element) {
+      this._container.prepend(element)
   }
 }

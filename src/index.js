@@ -21,7 +21,11 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 
 const initialCardsSection = new Section ({items: initialCards, renderer: renderCard}, cards)
-initialCardsSection.renderItems()
+const cardList = initialCardsSection.renderItems();
+cardList.forEach(item => {
+  initialCardsSection.addItem(item);
+})
+
 
 const handleCardClick = new PopupWithImage (imagePopup)
 handleCardClick.setEventListeners();
@@ -44,7 +48,7 @@ function renderCard (title, link) {
 }
 
 function addPost (inputList) {
-  initialCardsSection.addItem(inputList.postTitleInput, inputList.postLinkInput);
+  initialCardsSection.addItem(renderCard(inputList.postTitleInput, inputList.postLinkInput));
 }
 
 function openImagePopup (title, link) {
