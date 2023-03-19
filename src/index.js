@@ -23,7 +23,6 @@ import UserInfo from "../components/UserInfo.js";
 const initialCardsSection = new Section ({items: initialCards, renderer: renderCard}, cards)
 initialCardsSection.renderItems();
 
-
 const handleCardClick = new PopupWithImage (imagePopup)
 handleCardClick.setEventListeners();
 
