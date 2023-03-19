@@ -5,12 +5,10 @@ constructor ({items, renderer}, containerSelector) {
     this._container = containerSelector;
   }
 
-  renderItems () { 
-    const cardList = []
-    this._items.forEach(item => { 
-      cardList.push(this._renderer(item.title, item.link))
-  }); 
-    return cardList
+  renderItems () {  
+      this._items.forEach(item => {  
+         this._renderer(item.title, item.link) 
+    });
 } 
 
   addItem (element) {

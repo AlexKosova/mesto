@@ -21,10 +21,7 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 
 const initialCardsSection = new Section ({items: initialCards, renderer: renderCard}, cards)
-const cardList = initialCardsSection.renderItems();
-cardList.forEach(item => {
-  initialCardsSection.addItem(item);
-})
+initialCardsSection.renderItems();
 
 
 const handleCardClick = new PopupWithImage (imagePopup)
@@ -44,7 +41,7 @@ editProfileValidator.enableValidation();
 
 function renderCard (title, link) {
   const postCard = new Card (title, link, '#element', openImagePopup);
-  return postCard.createCard();
+  initialCardsSection.addItem(postCard.createCard());
 }
 
 function addPost (inputList) {
