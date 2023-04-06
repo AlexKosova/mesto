@@ -27,7 +27,7 @@ export default class Card {
 
   _isOwner () {
     if (this.ownerId !== this._id) {
-      this.buttonDelete.remove()
+      this._buttonDelete.remove()
     }
   }
 
@@ -42,10 +42,10 @@ export default class Card {
     this._buttonLike.addEventListener('click', () => {
       this._checkLike(this._card);
     });
-    this.buttonDelete = this._tempCard.querySelector('.element__button-delete')
+    this._buttonDelete = this._tempCard.querySelector('.element__button-delete')
 
-    this.buttonDelete.addEventListener('click', () => {
-      this._deleteCard()
+    this._buttonDelete.addEventListener('click', () => {
+      this._deleteCard(this._tempCard, this._card)
     })
 
     this._tempImageElem.addEventListener('click', () => {
@@ -65,7 +65,7 @@ export default class Card {
     }
   }
 
-  _remove () {
+  _delete () {
     this._tempCard.remove()
   }
 }

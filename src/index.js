@@ -1,4 +1,4 @@
-import '../pages/index.css'
+import './pages/index.css'
 import {
   confirmPopup, 
   editButton, 
@@ -14,15 +14,15 @@ import {
   config,
   editPhotoForm,
   profilePhotoPopup,
-  editPhotoButton} from "../utils/constants.js";
-import Card from "../components/Card.js";
-import FormValidator from "../components/FormValidator.js";
-import Section from "../components/Section.js";
-import PopupWithImage from "../components/PopupWithImage.js";
-import PopupWithForm from "../components/PopupWithForm.js";
-import UserInfo from "../components/UserInfo.js";
-import Api from '../components/Api.js';
-import PopupWithConfirmation from '../components/PopupWithConfirmation';
+  editPhotoButton} from "./utils/constants.js";
+import Card from "./components/Card.js";
+import FormValidator from "./components/FormValidator.js";
+import Section from "./components/Section.js";
+import PopupWithImage from "./components/PopupWithImage.js";
+import PopupWithForm from "./components/PopupWithForm.js";
+import UserInfo from "./components/UserInfo.js";
+import Api from './components/Api.js';
+import PopupWithConfirmation from './components/PopupWithConfirmation';
 
 let userId = '';
 
@@ -51,15 +51,24 @@ const handleCardClick = new PopupWithImage (imagePopup)
 handleCardClick.setEventListeners();
 
 const postPopup = new PopupWithForm(newPostPopup, addPost);
-postPopup.setEventListeners('создаём...', 'создать');
+postPopup.setEventListeners();
 
 const editOpenPopup = new PopupWithForm(editPopup, handleEditFormSubmit);
-editOpenPopup.setEventListeners('сохраняем...', 'сохранить');
+editOpenPopup.setEventListeners();
 
 const editPhotoPopup = new PopupWithForm (profilePhotoPopup, changePhoto);
-editPhotoPopup.setEventListeners('сохраняем...', 'сохранить');
+editPhotoPopup.setEventListeners();
 
-const confirmDeletionPopup = new PopupWithConfirmation (confirmPopup)
+const confirmDeletionPopup = new PopupWithConfirmation (confirmPopup, {callbackSubmit: (card, cardId) => {
+  api.deleteCard(cardId)
+        .then(() => {
+          card.remove();
+          confirmDeletionPopup.close()})
+        .catch((err) => {
+          console.log(err);
+        })
+}})
+confirmDeletionPopup.setEventListeners();
 
 const newPostValidator = new FormValidator (config, newPostForm);
 newPostValidator.enableValidation();
@@ -92,14 +101,9 @@ function renderCard (element) {
         console.log(err);
       })
   }},
-  cardDelition: () => {
-    confirmDeletionPopup.confirmAction(element, {callbackSubmit: () => {
-      api.deleteCard(element._id)
-        .then(postCard._remove())
-        .catch((err) => {
-          console.log(err);
-        })
-      }})
+  cardDelition: (card, element) => {
+    confirmDeletionPopup.open(card, element);
+    confirmDeletionPopup.confirmAction()
     }
   });
   initialCardsSection.addItem(postCard.createCard());
@@ -109,8 +113,13 @@ function renderCard (element) {
 }
 
 function addPost (inputList) {
+  postPopup.loading('создаём...');
   api.addCard(inputList)
-  .then(res => renderCard(res))
+  .then(res => {
+    renderCard(res);
+    postPopup.loading('создать');
+    postPopup.close()
+  })
   .catch((err) => {
     console.log(err);
   })
@@ -123,18 +132,25 @@ function openImagePopup (title, link) {
 const userInfo = new UserInfo ({profileName: ".profile__name", userJob: ".profile__description", userPhoto: ".profile__photo"});
 
 function handleEditFormSubmit (inputList) {
+  editOpenPopup.loading('сохраняем...');
   api.editprofile(inputList)
     .then(res => 
-      userInfo.setUserInfo(res))
+      {userInfo.setUserInfo(res);
+        editOpenPopup.loading('сохранить');
+        editOpenPopup.close();
+      })
     .catch((err) => {
       console.log(err);
     })
 }
 
 function changePhoto (inputList) {
+  editPhotoPopup.loading('сохраняем...');
   api.editPhoto(inputList)
     .then(res => {
-      userInfo.setUserAvatar(res)
+      userInfo.setUserAvatar(res);
+      editPhotoPopup.loading('сохранить');
+      editPhotoPopup.close();
     })
     .catch((err) => {
       console.log(err);
