@@ -21,4 +21,9 @@ export const config = {
   submitButtonSelector: '.popup__save-button',
   inactiveButtonClass: 'popup__save-button_disabled',
   errorClass: 'popup__input_type_error',
-}
+};
+export const editPhotoForm = document.forms.editPhotoForm;
+export const photoInput = editPhotoForm.elements.photoLinkInput;
+export const editPhotoButton = document.querySelector('.profile__photo-edit-button');
+export const profilePhotoPopup = document.querySelector('#editPhoto');
+export const confirmPopup = document.querySelector('#confirmDeletion');

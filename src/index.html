@@ -14,6 +14,9 @@
       <main>
         <section class="profile">
           <img class="profile__photo" src="<%=require('../images/profile__photo.jpg')%>" alt="фото профиля">
+          <button 
+          class="profile__photo-edit-button">
+          </button>
           <div class="profile__info">
             <h1 class="profile__name">Алекс Витрих</h1>
             <button class="profile__edit-button" aria-label="редактировать профиль" type="button"></button>
@@ -27,7 +30,9 @@
             <li class="element">
               <img class="element__photo" src="#" alt="#">
               <h2 class="element__title"></h2>
-              <button class="element__button-like" aria-label="нравится" type="button"></button>
+              <button class="element__button-like" aria-label="нравится" 
+              type="button"></button>
+              <p class="element__likeQuantity"></p>
               <button class="element__button-delete"></button>
             </li>
           </template>
@@ -101,6 +106,35 @@
           <img class="photo-popup__image" src="#" alt="#">
           <p class="photo-popup__title"></p>
         </div>
+      </section>
+
+      <section class="popup" id="editPhoto">
+        <form class="popup__container popup__container_height" name="editPhotoForm" novalidate>
+          <button class="popup__cancel-button" id="closePostButton" type="button"></button>
+          <h3 class="popup__title">Обновить аватар</h3>
+          <input 
+          required 
+          class="popup__input" 
+          type="url" 
+          placeholder="Ссылка на аватар" 
+          name="photoLinkInput" 
+          id="photoLinkInput">
+          <span id="photoLinkInput-error" class="error"></span>
+          <button class="popup__save-button" aria-label="Изменить аватарку" type="submit">
+            Сохранить
+            </button>
+        </form>
+      </section>
+
+      <section class="popup" id="confirmDeletion">
+        <div class="popup__container popup__confirm">
+          <button class="popup__cancel-button" id="closePostButton" type="button"></button>
+          <h3 class="popup__title">Вы уверены?</h3>
+          <button class="popup__confirm-button" aria-label="Удалить пост" type="button">
+            Да
+            </button>
+        </div>
+        
       </section>
     </div>
   </body>
