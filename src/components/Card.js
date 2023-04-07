@@ -20,7 +20,6 @@ export default class Card {
     this._tempImageElem.src = this._link;
     this._tempCard.querySelector('.element__title').textContent = this._tempImageElem.alt = this._title;
     this._setEventListeners();
-    this._tempCard.querySelector('.element__likeQuantity').textContent = this._likes;
     this._isOwner();
       return this._tempCard
   }
@@ -40,10 +39,10 @@ export default class Card {
   _setEventListeners () {
     this._buttonLike = this._tempCard.querySelector('.element__button-like');
     this._buttonLike.addEventListener('click', () => {
-      this._checkLike(this._card);
+      this._checkLike();
     });
-    this._buttonDelete = this._tempCard.querySelector('.element__button-delete')
 
+    this._buttonDelete = this._tempCard.querySelector('.element__button-delete')
     this._buttonDelete.addEventListener('click', () => {
       this._deleteCard(this._tempCard, this._card)
     })
@@ -51,12 +50,15 @@ export default class Card {
     this._tempImageElem.addEventListener('click', () => {
       this._handleCardClick(this._title, this._link);
     })
+
+    this._likeCounter =  this._tempCard.querySelector('.element__likeQuantity');
+    this._likeCounter.textContent = this._likes;
   }
 
   like (data) {
     this._likes = data.length;
     this._buttonLike.classList.toggle('element__button-like_active');
-    this._tempCard.querySelector('.element__likeQuantity').textContent = this._likes;
+    this._likeCounter.textContent = this._likes;
   }
 
   isLiked (likes) {

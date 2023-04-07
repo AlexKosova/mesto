@@ -14,13 +14,12 @@ export default class UserInfo {
   }
 
   setUserAvatar (data) {
-    this._userPhoto.src = data.avatar;
+    this._userPhoto.src = data;
   }
 
-  setUserInfo (data) {
-    this._userName.textContent = data.name;
-    this._userJob.textContent = data.about;
-    this.setUserAvatar(data);
-    
+  setUserInfo ({ name, about, avatar}) {
+    this._userName.textContent = name;
+    this._userJob.textContent = about;
+    this.setUserAvatar(avatar);
   }
 }

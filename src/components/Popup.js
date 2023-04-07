@@ -1,12 +1,13 @@
 export class Popup {
   constructor (popupElement) {
-    this._popup = popupElement
-    this._opened = 'popup_opened'
+    this._popup = popupElement;
+    this._opened = 'popup_opened';
+    this._closeByEscape = this._closeByEscape.bind(this)
   }
 
   open () {
     this._popup.classList.add(this._opened)
-    document.addEventListener('keydown', (evt) => {this._closeByEscape (evt)} )
+    document.addEventListener('keydown', this._closeByEscape)
   }
 
   close () {
